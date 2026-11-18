@@ -1,21 +1,45 @@
 {
-  "name": "project-website",
+  "name": "website",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "build-miz": "concurrently \"sass --no-source-map --style=compressed miz/_index.scss:public/css/miz.min.css\" \"node miz/pkg/miz-controller.js --build\" \"sass --no-source-map --style=compressed sass/style.scss:public/css/style.min.css\""
   },
   "dependencies": {
-    "next": "16.4.6",
+    "@base-ui/react": "^1.9.0",
+    "@tanstack/react-table": "^9.3.1",
+    "axios": "^1.20.0",
+    "bcrypt": "^6.0.0",
+    "better-auth": "^1.7.12",
+    "class-variance-authority": "^0.7.1",
+    "cn": "^0.5.0",
+    "date-fns": "^4.1.0",
+    "form-data": "^4.0.6",
+    "jsonwebtoken": "^9.0.3",
+    "nanoid": "^6.0.2",
+    "next": "16.4.2",
+    "next-themes": "^0.4.6",
+    "nextjs-toploader": "^3.9.17",
+    "prisma": "^7.10.1",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-date-object": "^2.1.9",
+    "react-day-picker": "^9.5.0",
+    "react-dom": "19.3.0",
+    "react-hook-form": "^7.90.0",
+    "react-multi-date-picker": "^4.5.2"
   },
   "devDependencies": {
     "babel-plugin-react-compiler": "1.0.0",
+    "concurrently": "^9.0.0",
     "eslint": "^9",
-    "eslint-config-next": "16.4.6"
+    "eslint-config-next": "16.4.2",
+    "prettier": "^3.9.10",
+    "sass": "^1.77.8",
+    "terser": "^5.28.1",
+    "tsx": "^4.23.15"
   }
 }

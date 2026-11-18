@@ -1,0 +1,129 @@
+@use "../../config/_component" as *;
+@use "../../../../sass/config/_dims" as *;
+@use "../../../../sass/config/_typography" as *;
+@use "../../../../sass/kernel" as *;
+@use "../../config" as *;
+@use 'sass:map';
+
+/* ========================== Avatar ========================== */
+
+.avatar {
+    flex-shrink: 0;
+
+    @extend .position-relative, .aspect-ratio-1x1, .d-flex, .align-items-center, .justify-content-center, .radius-all-full, .user-select-none;
+
+    &::after {
+        content: "";
+        pointer-events: none;
+        inset: 0;
+
+        @extend .position-absolute, .bw-1, .border-style-solid, .border-color, .radius-all-full;
+    }
+
+
+    /* ----------------------- Sizes ----------------------- */
+
+    @each $size, $value in map.get($avatar-sizes, "avatar") {
+        &[data-size="#{$size}"] {
+            width: $value;
+            @extend .aspect-ratio-1x1;
+        }
+    }
+}
+
+/* ========================== Avatar Image ========================== */
+
+.avatar-image {
+    @extend .d-block, .w-100, .h-100, .aspect-ratio-1x1, .object-cover, .radius-all-full;
+}
+
+/* ========================== Avatar Fallback ========================== */
+
+.avatar-fallback {
+    background-color: lab(2.75381% 0 0);
+    @extend .d-flex, .w-100, .h-100, .align-items-center, .justify-content-center, .aspect-ratio-1x1, .radius-all-full, .txt-align-center, .text-color, .user-select-none, .lh-1, .font-weight-medium;
+
+    @each $size, $value in map.get($avatar-sizes, "avatar-font-size") {
+        .avatar[data-size="#{$size}"] & {
+            @extend .txt-size-#{$value};
+        }
+    }
+}
+
+/* ========================== Avatar Badge ========================== */
+
+.avatar-badge {
+    @each $size, $value in map.get($avatar-sizes, "badge") {
+        .avatar[data-size="#{$size}"] & {
+            width: $value;
+            @extend .aspect-ratio-1x1;
+        }
+    }
+
+    @each $size, $value in map.get($avatar-sizes, "badge-svg") {
+        .avatar[data-size="#{$size}"] & {
+            svg {
+                width: $value;
+                @extend .aspect-ratio-1x1;
+            }
+        }
+    }
+
+    @extend .d-flex, .bg-success-regular-color, .on-primary-color, .position-absolute, .bottom-0, .right-0, .z-index-10, .align-items-center, .justify-content-center, .radius-all-full, .bw-2, .border-color, .border-style-solid, .aspect-ratio-1x1, .user-select-none;
+}
+
+/* ========================== Avatar Group ========================== */
+
+.avatar-group {
+    @extend .d-flex, .align-items-center, .gap-0;
+
+    &.grayscale {
+        filter: grayscale(100%);
+    }
+}
+
+/* ========================== Avatar inside Group ========================== */
+
+.avatar-group > [data-slot="avatar"] {
+    margin-inline-end: -8px;
+    @extend .bw-2, .border-style-solid, .border-color;
+}
+
+.avatar-group > [data-slot="avatar"]:first-child {
+    @extend .mis-0;
+}
+
+/* ========================== Avatar Group Count ========================== */
+
+.avatar-group-count {
+    width: 32px;
+    flex-shrink: 0;
+    background-color: lab(2.75381% 0 0);
+
+    @each $size, $value in map.get($avatar-sizes, "avatar") {
+        .avatar-group:has([data-slot="avatar"][data-size="#{$size}"]) & {
+            width: $value;
+            @extend .aspect-ratio-1x1;
+        }
+    }
+
+    @extend .position-relative, .d-flex, .align-items-center, .justify-content-center, .aspect-ratio-1x1, .radius-all-full, .txt-align-center, .bw-2, .border-style-solid, .border-color, .lh-1, .text-color, .font-weight-medium, .user-select-none, .txt-size-subtitle;
+}
+
+/* ========================== Group Count Icons ========================== */
+
+.avatar-group-count {
+    svg {
+        width: 16px;
+        @extend .aspect-ratio-1x1;
+    }
+}
+
+@each $size, $value in map.get($avatar-sizes, "badge") {
+    .avatar-group:has([data-slot="avatar"][data-size="#{$size}"]) .avatar-group-count {
+        svg {
+            width: $value;
+            @extend .aspect-ratio-1x1;
+        }
+    }
+}

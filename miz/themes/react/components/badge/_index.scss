@@ -1,0 +1,229 @@
+@use "../../config/_component" as *;
+@use "../../../../sass/config/_dims" as *;
+@use "../../../../sass/config/_typography" as *;
+@use "../../../../sass/kernel" as *;
+@use "../../config" as *;
+@use 'sass:map';
+
+
+$badge-sizes: (
+    "badge": (
+        default: 28px,
+        lg: 32px,
+        sm: 24px,
+    ),
+    "font-size": (
+        default: "normal",
+        lg: "subtitle",
+        sm: "small",
+    ),
+    "icon-size": (
+        default: 14px,
+        lg: 16px,
+        sm: 12px,
+    ),
+    "padding-inline": (
+        default: 10px,
+        lg: 12px,
+        sm: 8px,
+    )
+);
+
+
+/* =========================================================
+   Badge
+   ========================================================= */
+
+.badge {
+    white-space: nowrap;
+    vertical-align: middle;
+    flex-shrink: 0;
+    width: fit-content;
+
+    // .d-inline-flex,
+    @extend
+        .d-flex,
+        .align-items-center,
+        .justify-content-center,
+        .radius-all-full,
+        .font-weight-medium,
+        .user-select-none;
+
+    transition:
+        background-color 150ms ease,
+        color 150ms ease,
+        border-color 150ms ease,
+        box-shadow 150ms ease;
+
+
+    /* ---------------------------------------------------------
+       Sizes
+       --------------------------------------------------------- */
+
+    // @each $size, $value in map.get($badge-sizes, "font-size") {
+    //     &[data-size="#{$size}"] {
+    //         @extend .txt-size-#{$value};
+    //     }
+    // }
+
+    // @each $size, $value in map.get($badge-sizes, "padding-inline") {
+    //     &[data-size="#{$size}"] {
+    //         padding-inline: $value;
+    //     }
+    // }
+
+    @each $size, $value in map.get($badge-sizes, "badge") {
+        &[data-size="#{$size}"] {
+            min-height: $value;
+            @extend .txt-size-#{map.get(map.get($badge-sizes, "font-size"), $size)}, .pi-#{map.get(map.get($badge-sizes, "padding-inline"), $size)};
+        }
+    }
+
+
+    /* ---------------------------------------------------------
+       Icon Sizes
+       --------------------------------------------------------- */
+
+    @each $size, $value in map.get($badge-sizes, "icon-size") {
+        &[data-size="#{$size}"] {
+            svg {
+                width: $value;
+                flex-shrink: 0;
+                @extend .aspect-ratio-1x1;
+            }
+        }
+    }
+
+
+    /* ---------------------------------------------------------
+       Icon Spacing
+       --------------------------------------------------------- */
+
+    svg {
+        pointer-events: none;
+    }
+
+    svg:not(:only-child) {
+        flex-shrink: 0;
+    }
+
+
+    /* ---------------------------------------------------------
+       Disabled
+       --------------------------------------------------------- */
+
+    &[data-disabled] {
+        pointer-events: none;
+        @extend .cursor-not-allowed, .opacity-5;
+    }
+}
+
+
+/* =========================================================
+   Badge Variants
+   ========================================================= */
+
+
+/* ---------------------------------------------------------
+   Default
+   --------------------------------------------------------- */
+
+.badge[data-variant="default"] {
+    @extend .bg-primary-color, .on-primary-color, .border-transparent-color, .bw-1, .border-style-solid;
+}
+
+.badge[data-variant="secondary"] {
+    background-color: var(--secondary);
+    color: var(--on-secondary);
+    border: 1px solid transparent;
+}
+
+.badge[data-variant="destructive"] {
+    background-color: var(--danger-regular);
+    color: var(--white);
+    border: 1px solid transparent;
+}
+
+.badge[data-variant="outline"] {
+    background-color: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.badge[data-variant="ghost"] {
+    background-color: transparent;
+    color: var(--text);
+    border: 1px solid transparent;
+}
+
+.badge[data-variant="link"] {
+    background-color: transparent;
+    color: var(--primary);
+    border: 1px solid transparent;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+$badge: (
+    variant: (
+        default: (
+            element: (
+                background-color: primary,
+                color: text,
+                border-color: border,
+            ),
+            hover: (
+                background-color: hover,
+                color: null,
+                border-color: null
+            ),
+        ),
+        outline: (
+            element: (
+                background-color: transparent,
+                color: text,
+                border-color: border,
+            ),
+            hover: (
+                background-color: hover,
+                color: null,
+                border-color: null
+            ),
+        ),
+    )
+);
+
+.badge[data-variant="default"]:hover {
+    background-color: var(--primary-dark);
+}
+
+.badge[data-variant="secondary"]:hover {
+    background-color: var(--secondary-light);
+}
+
+.badge[data-variant="destructive"]:hover {
+    background-color: var(--danger-dark);
+}
+
+.badge[data-variant="outline"]:hover {
+    background-color: var(--hover);
+    border-color: var(--border);
+}
+
+.badge[data-variant="ghost"]:hover {
+    background-color: var(--hover);
+}
+
+.badge[data-variant="link"]:hover {
+    color: var(--text-hover);
+}
+
+
+/* ---------------------------------------------------------
+   Focus Visible
+   --------------------------------------------------------- */
+
+.badge:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
